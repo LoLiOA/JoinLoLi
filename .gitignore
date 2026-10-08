@@ -66,3 +66,7 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# Python (workflow 脚本 & 测试)
+__pycache__/
+*.py[cod]

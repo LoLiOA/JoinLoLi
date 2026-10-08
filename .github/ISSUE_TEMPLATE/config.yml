@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 接受组织邀请
+    url: https://github.com/orgs/LoLiOA/invitation
+    about: 已经收到邀请? 在这里点接受即可加入 LoLiOA
+  - name: 组织主页
+    url: https://github.com/LoLiOA
+    about: 看看 LoLiOA 有哪些仓库

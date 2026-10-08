@@ -1,0 +1,50 @@
+name: Join LoLi
+
+# 任何新建 / 重新打开的 Issue 都会触发本工作流,
+# 自动把 Issue 作者(或模板里填写的用户名)邀请进 LoLiOA 组织。
+on:
+  issues:
+    types: [opened, reopened]
+  workflow_dispatch:
+    inputs:
+      login:
+        description: 要邀请的 GitHub 用户名 (留空则邀请当前操作者)
+        required: false
+        type: string
+      dry_run:
+        description: 只演练, 不发送邀请也不评论
+        required: false
+        default: false
+        type: boolean
+
+# 最小权限原则: 脚本只需要读仓库 + 在 Issue 里回帖。
+# 注意: 邀请成员属于"组织"权限, github.token 永远没有,
+# 因此必须额外提供 ORG_INVITE_TOKEN (见 README)。
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: join-loli-${{ github.event.issue.number || inputs.login || github.actor }}
+  cancel-in-progress: false
+
+jobs:
+  invite:
+    name: Invite to LoLiOA
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.issue.pull_request == null &&
+      github.actor != 'github-actions[bot]' &&
+      !endsWith(github.actor, '[bot]'))
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Invite issue author
+        env:
+          GITHUB_TOKEN: ${{ secrets.ORG_INVITE_TOKEN || github.token }}
+          LOLI_ORG: ${{ vars.LOLI_ORG }}
+          LOLI_LOGIN: ${{ inputs.login }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: python3 .github/scripts/join_loli.py

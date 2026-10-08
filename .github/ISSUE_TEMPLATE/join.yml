@@ -1,0 +1,38 @@
+name: 申请加入 LoLi
+description: 提交后会自动向填写的 GitHub 用户发出 LoLiOA 组织邀请
+title: "[join] 申请加入 LoLi"
+labels: [join]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        提交本 Issue 后, 机器人会自动邀请你加入 **LoLiOA**。
+
+        - 本 Issue 必须由**申请加入者本人**提交, 邀请对象就是 Issue 作者,
+          不会邀请他人填写的账号。请填写**你自己的** GitHub 用户名 (登录名, 不是昵称)。
+        - 邀请发出后, 到你注册邮箱, 或
+          [邀请页面](https://github.com/orgs/LoLiOA/invitation) 点接受即可。
+        - 已经是成员 / 已经收到过邀请时, 机器人只会在 Issue 里说明, 不会重复邀请。
+  - type: input
+    id: github_username
+    attributes:
+      label: GitHub 用户名
+      description: 你的 GitHub 登录名, 例如 HengXin666 (无需 @)
+      placeholder: HengXin666
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: 想加入的原因 (可选)
+      description: 随便写点什么, 不影响自动邀请
+      placeholder: LoLi Play~~~
+    validations:
+      required: false
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: 确认
+      options:
+        - label: 这个 GitHub 账号是我的, 我自愿申请加入 LoLiOA
+          required: true
